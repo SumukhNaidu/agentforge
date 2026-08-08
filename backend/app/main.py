@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+import app.database.models
+
 from app.api.health import router as health_router
 from app.core.config import settings
 from app.database.base import Base
