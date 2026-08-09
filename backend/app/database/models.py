@@ -13,7 +13,7 @@ class Settings(Base):
 
     active_model: Mapped[str] = mapped_column(
         String,
-        default="qwen3:4b",
+        default="qwen2.5:1.5b"
     )
 
     temperature: Mapped[float] = mapped_column(
