@@ -2,14 +2,19 @@ import { SimpleGrid } from "@mantine/core";
 
 import ModelCard from "./ModelCard";
 import type { Model } from "@/services/model.service";
+
 interface Props {
   models: Model[];
   activeModel: string;
+  onSelectModel: (model: string) => void;
+  selectingModel?: string | null;
 }
 
 export default function ModelList({
   models,
   activeModel,
+  onSelectModel,
+  selectingModel,
 }: Props) {
   return (
     <SimpleGrid
@@ -25,6 +30,8 @@ export default function ModelList({
           key={model.name}
           {...model}
           active={model.name === activeModel}
+          onSelect={onSelectModel}
+          isSelecting={selectingModel === model.name}
         />
       ))}
     </SimpleGrid>

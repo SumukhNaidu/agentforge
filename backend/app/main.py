@@ -10,6 +10,8 @@ from app.database.base import Base
 from app.database.session import engine
 from app.api.models import router as models_router
 from app.api.settings import router as settings_router
+from app.api.chat import router as chat_router
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -32,6 +34,7 @@ app.add_middleware(
 app.include_router(health_router)
 app.include_router(models_router)
 app.include_router(settings_router)
+app.include_router(chat_router)
 
 
 @app.get("/")

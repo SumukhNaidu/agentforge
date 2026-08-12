@@ -3,15 +3,11 @@ from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.database.session import get_db
-
-from app.schemas.model import (
-    ModelResponse,
-    ChangeModelRequest,
-)
-
+from app.schemas.model import ModelResponse, ChangeModelRequest
 from app.services.ollama.service import model_service
 from app.services.settings.service import settings_service
+from app.database.session import get_db
+
 
 router = APIRouter(
     prefix="/api/v1/models",

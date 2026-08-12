@@ -19,6 +19,8 @@ export interface ModelCardProps {
   quantization: string;
   modified_at: string;
   active?: boolean;
+  onSelect?: (model: string) => void;
+  isSelecting?: boolean;
 }
 
 export default function ModelCard({
@@ -28,6 +30,8 @@ export default function ModelCard({
   parameters,
   quantization,
   active = false,
+  onSelect,
+  isSelecting = false,
 }: ModelCardProps) {
   return (
     <Card shadow="sm" radius="md" withBorder p="lg">
@@ -47,7 +51,6 @@ export default function ModelCard({
       <Divider mb="md" />
 
       <Stack gap="xs">
-
         <Group justify="space-between">
           <Text c="dimmed">Size</Text>
           <Text fw={500}>{size}</Text>
@@ -67,13 +70,15 @@ export default function ModelCard({
           <Text c="dimmed">Quantization</Text>
           <Text fw={500}>{quantization}</Text>
         </Group>
-
       </Stack>
 
       <Button
         fullWidth
         mt="lg"
         variant={active ? "filled" : "light"}
+        disabled={active || isSelecting}
+        loading={isSelecting}
+        onClick={() => onSelect?.(name)}
       >
         {active ? "Current Model" : "Select"}
       </Button>

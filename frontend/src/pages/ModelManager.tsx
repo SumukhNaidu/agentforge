@@ -1,7 +1,11 @@
 import { Stack } from "@mantine/core";
 import { useMemo, useState } from "react";
 
-import { useModels, useCurrentModel } from "@/hooks/useModels";
+import {
+  useChangeModel,
+  useModels,
+  useCurrentModel,
+} from "@/hooks/useModels";
 
 import ModelToolbar from "@/components/model-manager/ModelToolbar";
 import CurrentModelCard from "@/components/model-manager/CurrentModelCard";
@@ -20,16 +24,17 @@ export default function ModelManager() {
     data: current,
   } = useCurrentModel();
 
+  const changeModel = useChangeModel();
+
   const filteredModels = useMemo(() => {
     return models.filter((model) =>
       model.name.toLowerCase().includes(search.toLowerCase())
     );
   }, [models, search]);
 
-  console.log("Models:", models);
-  console.log("Filtered:", filteredModels);
-  console.log("Search:", search);
-  console.log("Current:", current);
+  const handleSelectModel = (model: string) => {
+    changeModel.mutate(model);
+  };
 
   if (isLoading) {
     return <h2>Loading...</h2>;
@@ -37,7 +42,6 @@ export default function ModelManager() {
 
   return (
     <Stack>
-
       <ModelToolbar
         onRefresh={refetch}
         search={search}
@@ -51,8 +55,13 @@ export default function ModelManager() {
       <ModelList
         models={filteredModels}
         activeModel={current?.active_model ?? ""}
+        onSelectModel={handleSelectModel}
+        selectingModel={
+          changeModel.isPending
+            ? changeModel.variables
+            : null
+        }
       />
-
     </Stack>
   );
 }
